@@ -1,7 +1,7 @@
 Summary:	Library for building x86_64 and i386 UEFI Applications
 Name:		gnu-efi
 Version:	3.0u
-Release:	1
+Release:	5
 # Intel and HP's BSD-like license, except setjmp code coming from GRUB
 License:	GPL v2+ (setjmp code), BSD-like (all the rest)
 Group:		Development/Libraries
@@ -16,6 +16,7 @@ ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		specflags	-fno-stack-protector
+%define		_libexecdir	%{_libdir}/gnuefi
 
 %description
 GNU-EFI development environment allows to create EFI applications for
@@ -39,9 +40,11 @@ IA-64 and x86 platforms using the GNU toolchain.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	INSTALLROOT=$RPM_BUILD_ROOT \
-	PREFIX=%{_prefix} \
-	LIBDIR=%{_libdir}
+	INSTALLROOT=$RPM_BUILD_ROOT	\
+	LIBDIR=%{_libexecdir}		\
+	PREFIX=%{_prefix}
+
+%{__mv} $RPM_BUILD_ROOT{%{_libexecdir}/*.a,%{_libdir}}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -51,6 +54,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc ChangeLog README.*
 %{_libdir}/libefi.a
 %{_libdir}/libgnuefi.a
-%{_libdir}/crt0-efi-*.o
-%{_libdir}/elf_*_efi.lds
+%dir %{_libexecdir}
+%{_libexecdir}/elf_*_efi.lds
+%{_libexecdir}/crt0-efi-*.o
 %{_includedir}/efi
+
