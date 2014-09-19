@@ -1,7 +1,7 @@
 Summary:	Library for building x86_64 and i386 UEFI Applications
 Name:		gnu-efi
 Version:	3.0u
-Release:	1
+Release:	2
 # Intel and HP's BSD-like license, except setjmp code coming from GRUB
 License:	GPL v2+ (setjmp code), BSD-like (all the rest)
 Group:		Development/Libraries
